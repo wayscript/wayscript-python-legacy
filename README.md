@@ -21,17 +21,24 @@ pip install wayscript
 2. Run your WayScript programs from your Python code:
 
 ```python
-import wayscript
+from wayscript import WayScript
 
 api_key = 'YOUR_API_KEY'
 
-wayscript = wayscript.authorize( api_key )
+wayscript = WayScript( api_key )
 
 # Run a program by id
 program_id = 1234
-wayscript.run( program_id )
+wayscript.run_program( program_id )
 
 # Pass variables to a program
 variables = [ 'one', 'two', 'three' ]
-wayscript.run( program_id, variables )
+wayscript.run_program( program_id, variables = variables )
+
+# Run a program asynchronously
+wayscript.run_program( program_id, run_async = True )
+wayscript.run_program( program_id, variables = variables, run_async = True )
+
+# Get the response from the server
+response = wayscript.run_program( program_id )
 ```

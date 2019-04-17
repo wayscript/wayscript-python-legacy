@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+
+# Copyright (c) 2019 WayScript, Inc. All rights reserved.
+# Licensed under the MIT License.
+
 import setuptools
 
 with open("README.md", "r") as fh:
@@ -11,8 +16,9 @@ setuptools.setup(
     description="WayScript gives you flexible building blocks to seamlessly integrate, automate and host tools in the cloud.",
     long_description=long_description,
     long_description_content_type="text/markdown",
+    install_requires=['requests>=2.21.0'],
     url="https://github.com/wayscript/wayscript-python",
-    packages=setuptools.find_packages(),
+    packages=['wayscript'],
     license='MIT',
     classifiers=[
         "Development Status :: 4 - Beta",
