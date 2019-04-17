@@ -1,0 +1,68 @@
+# Distribution / packaging
+.Python
+env/
+build/
+bundle/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Temporary Files
+tmp/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+.hypothesis/
+
+# Translations
+*.mo
+*.pot
+
+# PyBuilder
+target/
+
+# pyenv
+.python-version
+
+# dotenv
+.env
+
+# virtualenv
+venv/
+ENV/
+
+# Sublime Text Project Files
+*.sublime-project
+*.sublime-workspace
+
+# VSCode
+*.vscode
+
+# DS_Store
+.DS_Store
+
+# PyCharm
+.idea
