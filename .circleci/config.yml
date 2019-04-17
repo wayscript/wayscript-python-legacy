@@ -12,6 +12,7 @@ jobs:
           command: |
             sudo pip install pipenv
             pipenv install
+            sudo pip install requests
       - run:
           command: |
             pipenv run python -m unittest discover
