@@ -16,6 +16,7 @@ jobs:
       - run:
           command: |
             pipenv run python -m unittest discover
+      - run: mkdir test-results
       - store_test_results:
           path: test-results
       - store_artifacts:
