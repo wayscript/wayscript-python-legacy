@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  test:
+  build:
     docker:
       - image: circleci/python:3.6.8
     working_directory: ~/wayscript-python
