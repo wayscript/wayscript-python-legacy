@@ -13,6 +13,7 @@ class TestWayScript( TestCase ):
     program_id = 1234
     variables = [ 'one', 'two', 'three' ]
     api_url = 'https://wayscript.com/api'
+    headers = { 'X-WayScript-Api': 'python' }
 
     def test_api_key( self ):
         with self.assertRaises( InvalidApiKeyException ):
@@ -30,7 +31,8 @@ class TestWayScript( TestCase ):
             wayscript.run_program( self.program_id )
             post_request.assert_called_once_with( self.api_url, params = { 'api_key': self.dummy_api_key,
                                                                   'program_id': self.program_id,
-                                                                  'run_async': False } )
+                                                                  'run_async': False },
+                                                                headers = self.headers )
 
     def test_run_program_with_variables( self ):
         wayscript = WayScript( self.dummy_api_key )
@@ -40,7 +42,8 @@ class TestWayScript( TestCase ):
             post_request.assert_called_once_with( self.api_url, params = { 'api_key': self.dummy_api_key,
                                                                            'program_id': self.program_id,
                                                                            'run_async': False,
-                                                                           'variables': self.variables } )
+                                                                           'variables': self.variables },
+                                                                headers = self.headers )
 
     def test_run_program_async( self ):
         wayscript = WayScript( self.dummy_api_key )
@@ -50,7 +53,8 @@ class TestWayScript( TestCase ):
             post_request.assert_called_once_with( self.api_url, params = { 'api_key': self.dummy_api_key,
                                                                            'program_id': self.program_id,
                                                                            'run_async': True,
-                                                                           'variables': self.variables } )
+                                                                           'variables': self.variables },
+                                                                headers = self.headers )
 
     def test_empty_variables( self ):
         wayscript = WayScript( self.dummy_api_key )
@@ -59,7 +63,8 @@ class TestWayScript( TestCase ):
             wayscript.run_program( self.program_id, variables = [ ], run_async = True )
             post_request.assert_called_once_with( self.api_url, params = { 'api_key': self.dummy_api_key,
                                                                            'program_id': self.program_id,
-                                                                           'run_async': True } )
+                                                                           'run_async': True },
+                                                                headers = self.headers )
 
     def test_returns_response( self ):
         wayscript = WayScript( self.dummy_api_key )
@@ -68,5 +73,6 @@ class TestWayScript( TestCase ):
             response = wayscript.run_program( self.program_id, run_async = True )
             post_request.assert_called_once_with( self.api_url, params = { 'api_key': self.dummy_api_key,
                                                                            'program_id': self.program_id,
-                                                                           'run_async': True } )
+                                                                           'run_async': True },
+                                                                headers = self.headers )
             self.assertEqual( response, 'ok' )

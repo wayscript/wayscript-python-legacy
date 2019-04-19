@@ -47,4 +47,5 @@ class Client:
         return self._post( params )
 
     def _post( self, params ):
-        return requests.post( self._api_url, params = params )
+        headers = { 'X-WayScript-Api': 'python' }
+        return requests.post( self._api_url, params = params, headers = headers )
