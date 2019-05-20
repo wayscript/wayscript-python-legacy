@@ -44,3 +44,12 @@ wayscript.run_program( program_id, variables = variables, run_async = True )
 # Get the response from the server
 response = wayscript.run_program( program_id )
 ```
+
+## Run a WayScript program from command line
+```sh
+WS_API_KEY="YOUR_API_KEY"
+PROGRAM_ID=1234
+ARGUMENT="whatever"
+
+python -c "from wayscript import WayScript; WayScript('$WS_API_KEY').run_program($PROGRAM_ID, '$ARGUMENT')"
+```
