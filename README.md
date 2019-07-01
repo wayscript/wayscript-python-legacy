@@ -26,30 +26,44 @@ pip install wayscript
 from wayscript import WayScript
 
 api_key = 'YOUR_API_KEY'
-
 wayscript = WayScript( api_key )
 
 # Run a program by id
 program_id = 1234
 wayscript.run_program( program_id )
 
-# Pass variables to a program
+# Pass variables to a program (optional)
 variables = [ 'one', 'two', 'three' ]
 wayscript.run_program( program_id, variables = variables )
 
-# Run a program asynchronously
+# Run a specific function within your program (optional)
+function = 'My Function'
+wayscript.run_program( program_id, variables = variables, function = function )
+
+# Run a program asynchronously (optional)
 wayscript.run_program( program_id, run_async = True )
-wayscript.run_program( program_id, variables = variables, run_async = True )
+wayscript.run_program( program_id, variables = variables, function = function, run_async = True )
 
 # Get the response from the server
 response = wayscript.run_program( program_id )
 ```
+
+⭐ In order to run a program using the WayScript Python API, you must first add an active [Webhook Trigger](https://wayscript.com/documentation/trigger/webhook_trigger) to that program.
+
+### Running a specific function
+
+- The function you specify MUST have an active [Webhook Trigger](https://wayscript.com/documentation/trigger/webhook_trigger).
+- If you do not specify a function name in your request and your program has ***one*** function with a Webhook Trigger, the function with the Webhook Trigger will run.
+- If you do not specify a function name in your request and your program has ***multiple*** functions with Webhook Triggers, you will be asked to specify which function you would like to run.
 
 ## Run a WayScript program from command line
 ```sh
 WS_API_KEY="YOUR_API_KEY"
 PROGRAM_ID=1234
 ARGUMENT="whatever"
+FUNCTION="My Function"
 
-python -c "from wayscript import WayScript; WayScript('$WS_API_KEY').run_program($PROGRAM_ID, '$ARGUMENT')"
+python -c "from wayscript import WayScript; WayScript('$WS_API_KEY').run_program($PROGRAM_ID, '$ARGUMENT', '$FUNCTION')"
 ```
+
+If you don't want to use Python on the command line, you can use `curl`. (See the WayScript [REST API documentation](https://wayscript.com/documentation/apis/rest_api).)

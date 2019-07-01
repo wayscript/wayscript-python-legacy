@@ -34,6 +34,17 @@ class TestWayScript( TestCase ):
                                                                   'run_async': False },
                                                                 headers = self.headers )
 
+    def test_run_program_function( self ):
+        wayscript = WayScript( self.dummy_api_key )
+
+        with patch( 'requests.post' ) as post_request:
+            wayscript.run_program( self.program_id, function = 'My Function' )
+            post_request.assert_called_once_with( self.api_url, params = { 'api_key': self.dummy_api_key,
+                                                                  'program_id': self.program_id,
+                                                                  'function': 'My Function',
+                                                                  'run_async': False },
+                                                                headers = self.headers )
+
     def test_run_program_with_variables( self ):
         wayscript = WayScript( self.dummy_api_key )
 
@@ -43,6 +54,18 @@ class TestWayScript( TestCase ):
                                                                            'program_id': self.program_id,
                                                                            'run_async': False,
                                                                            'variables': self.variables },
+                                                                headers = self.headers )
+
+    def test_run_program_function_with_variables( self ):
+        wayscript = WayScript( self.dummy_api_key )
+
+        with patch( 'requests.post' ) as post_request:
+            wayscript.run_program( self.program_id, variables = self.variables, function = 'My Function' )
+            post_request.assert_called_once_with( self.api_url, params = { 'api_key': self.dummy_api_key,
+                                                                           'program_id': self.program_id,
+                                                                           'run_async': False,
+                                                                           'variables': self.variables,
+                                                                           'function': 'My Function'},
                                                                 headers = self.headers )
 
     def test_run_program_async( self ):
