@@ -20,10 +20,11 @@ class Client:
         self._api_key = api_key
         self._api_url = 'https://wayscript.com/api'
 
-    def run_program( self, program_id, variables = None, run_async = False ):
+    def run_program( self, program_id, variables = None, function = None, run_async = False ):
         """Runs a WayScript program.
             :param program_id: The id of the program you want to run.
             :param variables: (optional) An array of arguments to pass to your program.
+            :param function: (optional) The name of the function within your program that you would like to run.
             :param run_async: (optional) Run this program asyncronously.
                     If False, this command will block until your program has finished running.
             :return: Response object
@@ -33,7 +34,9 @@ class Client:
                 >>> api_key = 'YOUR_API_KEY'
                 >>> wayscript = WayScript( api_key )
                 >>> program_id = 1234
-                >>> response = wayscript.run_program( program_id, variables = variables, run_async = True )
+                >>> variables = [ 'one', 'two', 'three' ]
+                >>> function = 'My Function'
+                >>> response = wayscript.run_program( program_id, variables = variables, function = function, run_async = True )
               <Response [200]>
             """
 
@@ -43,6 +46,9 @@ class Client:
 
         if variables and len( variables ):
             params[ 'variables' ] = variables
+
+        if function and len( function ):
+            params[ 'function' ] = function
 
         return self._post( params )
 
