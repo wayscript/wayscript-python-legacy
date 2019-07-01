@@ -36,7 +36,7 @@ class Client:
                 >>> program_id = 1234
                 >>> variables = [ 'one', 'two', 'three' ]
                 >>> function = 'My Function'
-                >>> response = wayscript.run_program( program_id, variables = variables, function = function run_async = True )
+                >>> response = wayscript.run_program( program_id, variables = variables, function = function, run_async = True )
               <Response [200]>
             """
 
