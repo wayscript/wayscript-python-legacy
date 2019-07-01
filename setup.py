@@ -10,7 +10,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="wayscript",
-    version="0.0.1",
+    version="0.0.2",
     author="Team WayScript",
     author_email="founders@wayscript.com",
     description="WayScript gives you flexible building blocks to seamlessly integrate, automate and host tools in the cloud.",
