@@ -5,12 +5,12 @@
 
 import setuptools
 
-with open("README.md", "r") as fh:
+with open("README.md", "r", encoding="UTF-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="wayscript",
-    version="0.0.2",
+    version="0.0.3",
     author="Team WayScript",
     author_email="founders@wayscript.com",
     description="WayScript gives you flexible building blocks to seamlessly integrate, automate and host tools in the cloud.",
