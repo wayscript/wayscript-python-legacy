@@ -27,7 +27,6 @@ class Client:
             else:
                 raise InvalidArgumentException( key )
 
-
     def run( self, program_id: int, params: dict = None, endpoint: str = '' ):
         """Runs a WayScript program.
             :param program_id: The id of the program you want to run.
@@ -37,7 +36,10 @@ class Client:
             :rtype: requests.Response
             Usage::
                 >>> from wayscript import WayScript
-                >>> wayscript = WayScript( { 'api_key': 'YOUR_API_KEY' } )
+                >>>
+                >>> kwargs = { 'api_key': 'YOUR_API_KEY' }
+                >>> wayscript = WayScript( **kwargs )
+                >>>
                 >>> program_id = 1234
                 >>> params = { 'var1': 'one', 'var2': 'two', 'var3': 'three' }
                 >>> endpoint = 'my_endpoint'

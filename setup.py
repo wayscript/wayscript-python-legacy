@@ -37,7 +37,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "Natural Language :: English",
     ],
-    keywords=['wayscript', 'productivity', 'software', 'superpowers', 'scripts', 'cloud', 'tools', 'backend',
-              'visual', 'low-code', 'modules', 'trigger', 'integration', 'dev'],
+    keywords=[ 'wayscript', 'productivity', 'software', 'superpowers', 'scripts', 'cloud', 'tools', 'backend',
+               'visual', 'low-code', 'modules', 'trigger', 'integration', 'dev', 'http', 'webhook' ],
     zip_safe=False,
 )
