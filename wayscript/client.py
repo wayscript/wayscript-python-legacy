@@ -8,50 +8,55 @@ This module handles WayScript API calls.
 :license: MIT, see LICENSE.txt for more details.
 """
 
-import requests
-from wayscript.exceptions import InvalidApiKeyException
+import base64, requests
+
+from wayscript.exceptions import InvalidApiKeyException, InvalidArgumentException
 
 
 class Client:
-    def __init__( self, api_key):
-        if not api_key or len( api_key ) != 43:
-            raise InvalidApiKeyException()
+    def __init__( self, **kwargs ):
+        for key, value in kwargs.items():
+            if key.lower() == 'api_key':
+                if not value or len( value ) != 43:
+                    raise InvalidApiKeyException()
+                self._api_key = value
+            elif key.lower() == 'username':
+                self._username = value
+            elif key.lower() == 'password':
+                self._password = value
+            else:
+                raise InvalidArgumentException( key )
 
-        self._api_key = api_key
-        self._api_url = 'https://wayscript.com/api'
 
-    def run_program( self, program_id, variables = None, function = None, run_async = False ):
+    def run( self, program_id: int, params: dict = None, endpoint: str = '' ):
         """Runs a WayScript program.
             :param program_id: The id of the program you want to run.
-            :param variables: (optional) An array of arguments to pass to your program.
-            :param function: (optional) The name of the function within your program that you would like to run.
-            :param run_async: (optional) Run this program asyncronously.
-                    If False, this command will block until your program has finished running.
+            :param params: (optional) An dictionary of parameters to pass to your program.
+            :param endpoint: (optional) The name of the HTTP Trigger endpoint that you would like to run.
             :return: Response object
             :rtype: requests.Response
             Usage::
                 >>> from wayscript import WayScript
-                >>> api_key = 'YOUR_API_KEY'
-                >>> wayscript = WayScript( api_key )
+                >>> wayscript = WayScript( { 'api_key': 'YOUR_API_KEY' } )
                 >>> program_id = 1234
-                >>> variables = [ 'one', 'two', 'three' ]
-                >>> function = 'My Function'
-                >>> response = wayscript.run_program( program_id, variables = variables, function = function, run_async = True )
+                >>> params = { 'var1': 'one', 'var2': 'two', 'var3': 'three' }
+                >>> endpoint = 'my_endpoint'
+                >>> response = wayscript.run( program_id, params = params, endpoint = endpoint )
               <Response [200]>
             """
 
-        params = { 'api_key': self._api_key,
-                   'program_id': program_id,
-                   'run_async': run_async }
-
-        if variables and len( variables ):
-            params[ 'variables' ] = variables
-
-        if function and len( function ):
-            params[ 'function' ] = function
-
-        return self._post( params )
-
-    def _post( self, params ):
         headers = { 'X-WayScript-Api': 'python' }
-        return requests.post( self._api_url, params = params, headers = headers )
+        auth_header = self._get_auth_header()
+        if auth_header: headers[ 'Authentication' ] = auth_header
+
+        url = f'https://{ program_id }.wayscript.com/' + ( endpoint or '' )
+
+        return requests.post( url, params = params, headers = headers )
+
+    def _get_auth_header( self ):
+        if self._api_key:
+            return 'Bearer ' + self._api_key
+        elif self._username and self._password:
+            return 'Basic ' + base64.b64encode( bytes( f'{ self._username }:{ self._password }', 'utf-8' ) ).decode( 'utf-8' )
+        else:
+            return None
