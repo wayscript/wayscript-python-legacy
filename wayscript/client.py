@@ -29,11 +29,12 @@ class Client:
             else:
                 raise InvalidArgumentException( key )
 
-    def run( self, program_id: int, params: dict = None, endpoint: str = '' ):
+    def run( self, program_id: int, endpoint: str = '', query_params: dict = None, body_params: dict = None ):
         """Runs a WayScript program.
             :param program_id: The id of the program you want to run.
-            :param params: (optional) An dictionary of parameters to pass to your program.
             :param endpoint: (optional) The name of the HTTP Trigger endpoint that you would like to run.
+            :param query_params: (optional) An dictionary of query parameters to pass to your program.
+            :param body_params: (optional) An dictionary of JSON body parameters to pass to your program.
             :return: Response object
             :rtype: requests.Response
             Usage::
@@ -43,9 +44,10 @@ class Client:
                 >>> wayscript = WayScript( **kwargs )
                 >>>
                 >>> program_id = 1234
-                >>> params = { 'var1': 'one', 'var2': 'two', 'var3': 'three' }
                 >>> endpoint = 'my_endpoint'
-                >>> response = wayscript.run( program_id, params = params, endpoint = endpoint )
+                >>> query_params = { 'var1': 'one', 'var2': 'two', 'var3': 'three' }
+                >>> body_params = { 'bodyVar1': 'hello', 'bodyVar2': 'world' }
+                >>> response = wayscript.run( program_id, endpoint = endpoint, query_params = query_params, body_params = body_params )
               <Response [200]>
             """
 
@@ -55,7 +57,7 @@ class Client:
 
         url = f'https://{ program_id }.wayscript.com/' + ( endpoint or '' )
 
-        return requests.post( url, params = params, headers = headers )
+        return requests.post( url, params = query_params, data = body_params, headers = headers )
 
     def _get_auth_header( self ):
         if self._api_key:

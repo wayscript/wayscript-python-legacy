@@ -24,7 +24,7 @@ pip install wayscript
 
 3. If you have specified a [custom endpoint](https://docs.wayscript.com/library/triggers/http-trigger#endpoints), you will need the name of that endpoint as well.
 
-4. If your HTTP Trigger has any outputs, you can pass those as a dictionary of params to your program.
+4. If your HTTP Trigger takes query parameters and/or JSON Body Parameters, you can pass those as a dictionary of query_params and/or body_params to your program.
 
 5. Run your WayScript programs from your Python code:
 
@@ -40,13 +40,16 @@ wayscript = WayScript( **kwargs )
 program_id = 1234
 wayscript.run( program_id )
 
-# Pass params for the HTTP Trigger to output (optional)
+# Pass query parameters for the HTTP Trigger to output (optional)
 params = { 'var1': 'one', 'var2': 'two', 'var3': 'three' }
-wayscript.run( program_id, params = params )
+wayscript.run( program_id, query_params = params )
+
+# Pass JSON body parameters for the HTTP Trigger to output (optional)
+wayscript.run( program_id, body_params = params )
 
 # Run a custom endpoint (optional)
 endpoint = 'my_endpoint'
-wayscript.run( program_id, params = params, endpoint = endpoint )
+wayscript.run( program_id, endpoint = endpoint, query_params = params )
 
 # Get the response from the server
 response = wayscript.run( program_id )

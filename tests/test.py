@@ -46,7 +46,7 @@ class TestWayScript( TestCase ):
         with patch( 'requests.post' ) as post_request:
             wayscript.run( self.PROGRAM_ID )
             headers = { 'X-WayScript-Api': 'python' }
-            post_request.assert_called_once_with( self.API_URL, headers = headers, params = None )
+            post_request.assert_called_once_with( self.API_URL, data = None, headers = headers, params = None )
 
     def test_run_with_api_key( self ):
         wayscript = WayScript( **{ 'api_key': self.DUMMY_API_KEY } )
@@ -54,7 +54,7 @@ class TestWayScript( TestCase ):
         with patch( 'requests.post' ) as post_request:
             wayscript.run( self.PROGRAM_ID )
             headers = { 'X-WayScript-Api': 'python', 'Authorization': f'Bearer { self.DUMMY_API_KEY }' }
-            post_request.assert_called_once_with( self.API_URL, headers = headers, params = None )
+            post_request.assert_called_once_with( self.API_URL, data = None, headers = headers, params = None )
 
     def test_run_with_username_and_password( self ):
         wayscript = WayScript( **{ 'username': self.USERNAME, 'password': self.PASSWORD } )
@@ -62,7 +62,7 @@ class TestWayScript( TestCase ):
         with patch( 'requests.post' ) as post_request:
             wayscript.run( self.PROGRAM_ID )
             headers = { 'X-WayScript-Api': 'python', 'Authorization': 'Basic Y2FwdGFpbkB3YXlzY3JpcHQuY29tOmxldG1laW4=' }
-            post_request.assert_called_once_with( self.API_URL, headers = headers, params = None )
+            post_request.assert_called_once_with( self.API_URL, data = None, headers = headers, params = None )
 
     def test_run_custom_endpoint_no_auth( self ):
         wayscript = WayScript()
@@ -70,7 +70,7 @@ class TestWayScript( TestCase ):
         with patch( 'requests.post' ) as post_request:
             wayscript.run( self.PROGRAM_ID, endpoint = self.ENDPOINT )
             headers = { 'X-WayScript-Api': 'python' }
-            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, headers = headers, params = None )
+            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, data = None, headers = headers, params = None )
 
     def test_run_custom_endpoint_with_api_key( self ):
         wayscript = WayScript( **{ 'api_key': self.DUMMY_API_KEY } )
@@ -78,7 +78,7 @@ class TestWayScript( TestCase ):
         with patch( 'requests.post' ) as post_request:
             wayscript.run( self.PROGRAM_ID, endpoint = self.ENDPOINT )
             headers = { 'X-WayScript-Api': 'python', 'Authorization': f'Bearer { self.DUMMY_API_KEY }' }
-            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, headers = headers, params = None )
+            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, data = None, headers = headers, params = None )
 
     def test_run_custom_endpoint_with_username_and_password( self ):
         wayscript = WayScript( **{ 'username': self.USERNAME, 'password': self.PASSWORD } )
@@ -86,55 +86,96 @@ class TestWayScript( TestCase ):
         with patch( 'requests.post' ) as post_request:
             wayscript.run( self.PROGRAM_ID, endpoint = self.ENDPOINT )
             headers = { 'X-WayScript-Api': 'python', 'Authorization': 'Basic Y2FwdGFpbkB3YXlzY3JpcHQuY29tOmxldG1laW4=' }
-            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, headers = headers, params = None )
+            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, data = None, headers = headers, params = None )
 
-    def test_run_no_auth_with_params( self ):
+    def test_run_no_auth_with_query_params( self ):
         wayscript = WayScript()
 
         with patch( 'requests.post' ) as post_request:
-            wayscript.run( self.PROGRAM_ID, params = self.PARAMS )
+            wayscript.run( self.PROGRAM_ID, query_params = self.PARAMS )
             headers = { 'X-WayScript-Api': 'python' }
-            post_request.assert_called_once_with( self.API_URL, headers = headers, params = self.PARAMS )
+            post_request.assert_called_once_with( self.API_URL, data = None, headers = headers, params = self.PARAMS )
 
-    def test_run_authenticated_with_params( self ):
+    def test_run_authenticated_with_query_params( self ):
         wayscript = WayScript( **{ 'username': self.USERNAME, 'password': self.PASSWORD } )
 
         with patch( 'requests.post' ) as post_request:
-            wayscript.run( self.PROGRAM_ID, params = self.PARAMS )
+            wayscript.run( self.PROGRAM_ID, query_params = self.PARAMS )
             headers = { 'X-WayScript-Api': 'python', 'Authorization': 'Basic Y2FwdGFpbkB3YXlzY3JpcHQuY29tOmxldG1laW4=' }
-            post_request.assert_called_once_with( self.API_URL, headers = headers, params = self.PARAMS )
+            post_request.assert_called_once_with( self.API_URL, data = None, headers = headers, params = self.PARAMS )
 
-    def test_run_custom_endpoint_no_auth_with_params( self ):
+    def test_run_custom_endpoint_no_auth_with_query_params( self ):
         wayscript = WayScript()
 
         with patch( 'requests.post' ) as post_request:
-            wayscript.run( self.PROGRAM_ID, params = self.PARAMS, endpoint = self.ENDPOINT )
+            wayscript.run( self.PROGRAM_ID, query_params = self.PARAMS, endpoint = self.ENDPOINT )
             headers = { 'X-WayScript-Api': 'python' }
-            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, headers = headers, params = self.PARAMS )
+            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, data = None, headers = headers, params = self.PARAMS )
 
-    def test_run_custom_endpoint_authenticated_with_params( self ):
+    def test_run_custom_endpoint_authenticated_with_query_params( self ):
         wayscript = WayScript( **{ 'api_key': self.DUMMY_API_KEY } )
 
         with patch( 'requests.post' ) as post_request:
-            wayscript.run( self.PROGRAM_ID, params = self.PARAMS, endpoint = self.ENDPOINT )
+            wayscript.run( self.PROGRAM_ID, query_params = self.PARAMS, endpoint = self.ENDPOINT )
             headers = { 'X-WayScript-Api': 'python', 'Authorization': f'Bearer { self.DUMMY_API_KEY }' }
-            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, headers = headers, params = self.PARAMS )
+            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, data = None, headers = headers, params = self.PARAMS )
+
+    def test_run_no_auth_with_body_params( self ):
+        wayscript = WayScript()
+
+        with patch( 'requests.post' ) as post_request:
+            wayscript.run( self.PROGRAM_ID, body_params = self.PARAMS )
+            headers = { 'X-WayScript-Api': 'python' }
+            post_request.assert_called_once_with( self.API_URL, data = self.PARAMS, headers = headers, params = None)
+
+    def test_run_authenticated_with_body_params( self ):
+        wayscript = WayScript( **{ 'username': self.USERNAME, 'password': self.PASSWORD } )
+
+        with patch( 'requests.post' ) as post_request:
+            wayscript.run( self.PROGRAM_ID, body_params = self.PARAMS )
+            headers = { 'X-WayScript-Api': 'python', 'Authorization': 'Basic Y2FwdGFpbkB3YXlzY3JpcHQuY29tOmxldG1laW4=' }
+            post_request.assert_called_once_with( self.API_URL, data = self.PARAMS, headers = headers, params = None )
+
+    def test_run_custom_endpoint_no_auth_with_body_params( self ):
+        wayscript = WayScript()
+
+        with patch( 'requests.post' ) as post_request:
+            wayscript.run( self.PROGRAM_ID, body_params = self.PARAMS, endpoint = self.ENDPOINT )
+            headers = { 'X-WayScript-Api': 'python' }
+            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, data = self.PARAMS, headers = headers, params = None )
+
+    def test_run_custom_endpoint_authenticated_with_body_params( self ):
+        wayscript = WayScript( **{ 'api_key': self.DUMMY_API_KEY } )
+
+        with patch( 'requests.post' ) as post_request:
+            wayscript.run( self.PROGRAM_ID, body_params = self.PARAMS, endpoint = self.ENDPOINT )
+            headers = { 'X-WayScript-Api': 'python', 'Authorization': f'Bearer { self.DUMMY_API_KEY }' }
+            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, data = self.PARAMS, headers = headers, params = None )
+
+    def test_all_params( self ):
+        wayscript = WayScript( **{ 'api_key': self.DUMMY_API_KEY } )
+
+        with patch( 'requests.post' ) as post_request:
+            wayscript.run( self.PROGRAM_ID, query_params = self.PARAMS, body_params = self.PARAMS, endpoint = self.ENDPOINT )
+            headers = { 'X-WayScript-Api': 'python', 'Authorization': f'Bearer {self.DUMMY_API_KEY}' }
+            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, data = self.PARAMS, headers = headers,
+                                                  params = self.PARAMS )
 
     def test_empty_params( self ):
         wayscript = WayScript( **{ 'api_key': self.DUMMY_API_KEY } )
 
         with patch( 'requests.post' ) as post_request:
-            wayscript.run( self.PROGRAM_ID, params = { }, endpoint = self.ENDPOINT )
+            wayscript.run( self.PROGRAM_ID, query_params = { }, body_params = { }, endpoint = self.ENDPOINT )
             headers = { 'X-WayScript-Api': 'python', 'Authorization': f'Bearer {self.DUMMY_API_KEY}' }
-            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, headers = headers,
+            post_request.assert_called_once_with( self.API_URL + self.ENDPOINT, data = { }, headers = headers,
                                                   params = { } )
 
     def test_returns_response( self ):
         wayscript = WayScript()
 
         with patch( 'requests.post', return_value = 'ok' ) as post_request:
-            response = wayscript.run( self.PROGRAM_ID, params = self.PARAMS )
+            response = wayscript.run( self.PROGRAM_ID, query_params = self.PARAMS )
             headers = { 'X-WayScript-Api': 'python' }
-            post_request.assert_called_once_with( self.API_URL, headers = headers, params = self.PARAMS )
+            post_request.assert_called_once_with( self.API_URL,  data = None, headers = headers, params = self.PARAMS )
 
             self.assertEqual( response, 'ok' )
