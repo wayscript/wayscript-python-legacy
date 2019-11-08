@@ -15,6 +15,8 @@ from wayscript.exceptions import InvalidApiKeyException, InvalidArgumentExceptio
 
 class Client:
     def __init__( self, **kwargs ):
+        self._api_key = self._username = self._password = None
+
         for key, value in kwargs.items():
             if key.lower() == 'api_key':
                 if not value or len( value ) != 43:
@@ -49,7 +51,7 @@ class Client:
 
         headers = { 'X-WayScript-Api': 'python' }
         auth_header = self._get_auth_header()
-        if auth_header: headers[ 'Authentication' ] = auth_header
+        if auth_header: headers[ 'Authorization' ] = auth_header
 
         url = f'https://{ program_id }.wayscript.com/' + ( endpoint or '' )
 
