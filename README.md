@@ -20,7 +20,7 @@ pip install wayscript
 
 2. If you have a [password-protected endpoint](https://docs.wayscript.com/library/triggers/http-trigger#password-protect-your-endpoints), obtain your API key or the credentials you would like to use.
 
-3. If you have specified a [custom endpoint](https://docs.wayscript.com/library/triggers/http-trigger#endpoints), you will need the name of that endpoint as well.
+3. If you have specified a [custom endpoint](https://docs.wayscript.com/library/triggers/http-trigger#endpoints), you will need to pass the name of that endpoint in your api call.
 
 4. If your HTTP Trigger takes [query parameters](https://docs.wayscript.com/library/triggers/http-trigger#request-query-parameters) and/or [JSON body parameters](https://docs.wayscript.com/library/triggers/http-trigger#request-json-body-parameters), you can pass those as a dictionary using the `params` and/or `data` arguments, respectively. (See [HTTP Trigger Outputs](https://docs.wayscript.com/library/triggers/http-trigger#outputs) for more information.)
 
