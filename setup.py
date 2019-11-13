@@ -10,13 +10,13 @@ with open("README.md", "r", encoding="UTF-8") as fh:
 
 setuptools.setup(
     name="wayscript",
-    version="0.0.3",
+    version="0.1.0",
     author="Team WayScript",
     author_email="founders@wayscript.com",
     description="WayScript gives you flexible building blocks to seamlessly integrate, automate and host tools in the cloud.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    install_requires=['requests>=2.21.0'],
+    install_requires=['requests>=2.22.0'],
     url="https://github.com/wayscript/wayscript-python",
     packages=['wayscript'],
     license='MIT',
@@ -37,7 +37,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "Natural Language :: English",
     ],
-    keywords=['wayscript', 'productivity', 'software', 'superpowers', 'scripts', 'cloud', 'tools', 'backend',
-              'visual', 'low-code', 'modules', 'trigger'],
+    keywords=[ 'wayscript', 'productivity', 'software', 'superpowers', 'scripts', 'cloud', 'tools', 'backend',
+               'visual', 'low-code', 'modules', 'trigger', 'integration', 'dev', 'http', 'webhook' ],
     zip_safe=False,
 )

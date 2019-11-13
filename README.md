@@ -2,13 +2,11 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/wayscript.svg?color=blue)](https://pypi.python.org/pypi/wayscript/) [![CircleCI Status](https://circleci.com/gh/wayscript/wayscript-python/tree/master.svg?style=shield)](https://circleci.com/gh/wayscript/wayscript-python/tree/master)
 
-### A new way to build software.
+### A rapid scripting platform for developers.
 
-* WayScript gives you flexible building blocks to seamlessly integrate, automate and host tools in the cloud. Unlock new potential with drag and drop programming.
+WayScript allows you to run Python in the cloud, and seamlessly integrate with your favorite APIs.
 
-* Instantly connect to hundreds of datasets including GitHub, Twitter, databases, ecommerce data, or build your own integration. WayScript can read data from Excel, Google Sheets, and an evergrowing list of third-party APIs.
-
-* Seamlessly migrate to the cloud: Generate interfaces, instantly share, and run via event-based triggering. 
+![Trigger scripts on any event or schedule.](https://user-images.githubusercontent.com/31461850/68791449-30fde880-05fe-11ea-86d1-8dc739cda767.png)
 
 ## Installation
 
@@ -18,52 +16,57 @@ pip install wayscript
 
 ## Basic Usage
 
-1. Get the API Key from your WayScript user profile page
+1. Add one or more [HTTP Triggers](https://docs.wayscript.com/library/triggers/http-trigger) to your script.
 
-2. Run your WayScript programs from your Python code:
+2. If you have a [password-protected endpoint](https://docs.wayscript.com/library/triggers/http-trigger#password-protect-your-endpoints), obtain your API key or the credentials you would like to use.
+
+3. If you have specified a [custom endpoint](https://docs.wayscript.com/library/triggers/http-trigger#endpoints), you will need the name of that endpoint as well.
+
+4. If your HTTP Trigger takes [query parameters](https://docs.wayscript.com/library/triggers/http-trigger#request-query-parameters) and/or [JSON body parameters](https://docs.wayscript.com/library/triggers/http-trigger#request-json-body-parameters), you can pass those as a dictionary using the `params` and/or `data` arguments, respectively. (See [HTTP Trigger Outputs](https://docs.wayscript.com/library/triggers/http-trigger#outputs) for more information.)
+
+5. Run your WayScript programs from your Python code:
 
 ```python
 from wayscript import WayScript
 
-api_key = 'YOUR_API_KEY'
-wayscript = WayScript( api_key )
+# Create the WayScript client
+wayscript = WayScript()
+
+# If your program requires a password to run, supply those credentials when creating the client
+username = 'YOUR_USERNAME'
+password = 'YOUR_PASSWORD'
+kwargs = { 'username': username, 'password': password }
+wayscript = WayScript( **kwargs )
+
+# If your program requires a password to run, you can instead supply your API Key when creating the client
+kwargs = { 'api_key': 'MY_API_KEY' }
+wayscript = WayScript( **kwargs )
 
 # Run a program by id
 program_id = 1234
-wayscript.run_program( program_id )
+wayscript.run( program_id )
 
-# Pass variables to a program (optional)
-variables = [ 'one', 'two', 'three' ]
-wayscript.run_program( program_id, variables = variables )
+# Pass query parameters for the HTTP Trigger to output (optional)
+query_params = { 'var1': 'one', 'var2': 'two', 'var3': 'three' }
+wayscript.run( program_id, params = query_params )
 
-# Run a specific function within your program (optional)
-function = 'My Function'
-wayscript.run_program( program_id, variables = variables, function = function )
+# Pass JSON body parameters for the HTTP Trigger to output (optional)
+body_params = { 'var4': 'four', 'var5': 'five', 'var6': 'six' }
+wayscript.run( program_id, data = body_params )
 
-# Run a program asynchronously (optional)
-wayscript.run_program( program_id, run_async = True )
-wayscript.run_program( program_id, variables = variables, function = function, run_async = True )
+# Run a custom endpoint (optional)
+endpoint = 'my_endpoint'
+wayscript.run( program_id, endpoint = endpoint, params = query_params, data = body_params )
 
 # Get the response from the server
-response = wayscript.run_program( program_id )
+response = wayscript.run( program_id )
 ```
-
-⭐ In order to run a program using the WayScript Python API, you must first add an active [Webhook Trigger](https://wayscript.com/documentation/trigger/webhook_trigger) to that program.
-
-### Running a specific function
-
-- The function you specify MUST have an active [Webhook Trigger](https://wayscript.com/documentation/trigger/webhook_trigger).
-- If you do not specify a function name in your request and your program has ***one*** function with a Webhook Trigger, the function with the Webhook Trigger will run.
-- If you do not specify a function name in your request and your program has ***multiple*** functions with Webhook Triggers, you will be asked to specify which function you would like to run.
 
 ## Run a WayScript program from command line
 ```sh
-WS_API_KEY="YOUR_API_KEY"
 PROGRAM_ID=1234
-ARGUMENT="whatever"
-FUNCTION="My Function"
 
-python -c "from wayscript import WayScript; WayScript('$WS_API_KEY').run_program($PROGRAM_ID, '$ARGUMENT', '$FUNCTION')"
+python -c "from wayscript import WayScript; WayScript().run($PROGRAM_ID)"
 ```
 
-If you don't want to use Python on the command line, you can use `curl`. (See the WayScript [REST API documentation](https://wayscript.com/documentation/apis/rest_api).)
+If you don't want to use Python on the command line, you can use `cURL`. (See the [HTTP Trigger Sample Code](https://docs.wayscript.com/library/triggers/http-trigger#sample-code) for an example.)

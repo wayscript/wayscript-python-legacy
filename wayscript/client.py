@@ -8,50 +8,66 @@ This module handles WayScript API calls.
 :license: MIT, see LICENSE.txt for more details.
 """
 
-import requests
-from wayscript.exceptions import InvalidApiKeyException
+import base64, requests
+from urllib import parse
+
+from wayscript.exceptions import InvalidApiKeyException, InvalidArgumentException
 
 
 class Client:
-    def __init__( self, api_key):
-        if not api_key or len( api_key ) != 43:
-            raise InvalidApiKeyException()
+    def __init__( self, **kwargs ):
+        self._api_key = self._username = self._password = None
 
-        self._api_key = api_key
-        self._api_url = 'https://wayscript.com/api'
+        for key, value in kwargs.items():
+            if key.lower() == 'api_key':
+                if not value or len( value ) != 43:
+                    raise InvalidApiKeyException()
+                self._api_key = value
+            elif key.lower() == 'username':
+                self._username = value
+            elif key.lower() == 'password':
+                self._password = value
+            else:
+                raise InvalidArgumentException( key )
 
-    def run_program( self, program_id, variables = None, function = None, run_async = False ):
+    def run( self, program_id: int, endpoint: str = '', params: dict = None, data: dict = None ):
         """Runs a WayScript program.
             :param program_id: The id of the program you want to run.
-            :param variables: (optional) An array of arguments to pass to your program.
-            :param function: (optional) The name of the function within your program that you would like to run.
-            :param run_async: (optional) Run this program asyncronously.
-                    If False, this command will block until your program has finished running.
+            :param endpoint: (optional) The name of the HTTP Trigger endpoint that you would like to run.
+            :param params: (optional) An dictionary of query parameters to pass to your program.
+            :param data: (optional) An dictionary of JSON body parameters to pass to your program.
             :return: Response object
             :rtype: requests.Response
             Usage::
                 >>> from wayscript import WayScript
-                >>> api_key = 'YOUR_API_KEY'
-                >>> wayscript = WayScript( api_key )
+                >>>
+                >>> kwargs = { 'api_key': 'YOUR_API_KEY' }
+                >>> wayscript = WayScript( **kwargs )
+                >>>
                 >>> program_id = 1234
-                >>> variables = [ 'one', 'two', 'three' ]
-                >>> function = 'My Function'
-                >>> response = wayscript.run_program( program_id, variables = variables, function = function, run_async = True )
+                >>> endpoint = 'my_endpoint'
+                >>> query_params = { 'var1': 'one', 'var2': 'two', 'var3': 'three' }
+                >>> body_params = { 'bodyVar1': 'hello', 'bodyVar2': 'world' }
+                >>> response = wayscript.run( program_id, endpoint = endpoint, params = query_params, data = body_params )
               <Response [200]>
             """
 
-        params = { 'api_key': self._api_key,
-                   'program_id': program_id,
-                   'run_async': run_async }
-
-        if variables and len( variables ):
-            params[ 'variables' ] = variables
-
-        if function and len( function ):
-            params[ 'function' ] = function
-
-        return self._post( params )
-
-    def _post( self, params ):
         headers = { 'X-WayScript-Api': 'python' }
-        return requests.post( self._api_url, params = params, headers = headers )
+        auth_header = self._get_auth_header()
+        if auth_header: headers[ 'Authorization' ] = auth_header
+
+        url = f'https://{ program_id }.wayscript.com/' + parse.quote( endpoint or '' )
+
+        return requests.post( url, params = params, data = data, headers = headers )
+
+    def _get_auth_header( self ):
+        if self._api_key:
+            return 'Bearer ' + self._api_key
+        elif self._username and self._password:
+            return 'Basic ' + Client._encode_str( f'{ self._username }:{ self._password }' )
+        else:
+            return None
+
+    @staticmethod
+    def _encode_str( string: str ):
+        return base64.b64encode( bytes( string, 'utf-8' ) ).decode( 'utf-8' )
