@@ -9,6 +9,7 @@ This module handles WayScript API calls.
 """
 
 import base64, requests
+from urllib import parse
 
 from wayscript.exceptions import InvalidApiKeyException, InvalidArgumentException
 
@@ -29,12 +30,12 @@ class Client:
             else:
                 raise InvalidArgumentException( key )
 
-    def run( self, program_id: int, endpoint: str = '', query_params: dict = None, body_params: dict = None ):
+    def run( self, program_id: int, endpoint: str = '', params: dict = None, data: dict = None ):
         """Runs a WayScript program.
             :param program_id: The id of the program you want to run.
             :param endpoint: (optional) The name of the HTTP Trigger endpoint that you would like to run.
-            :param query_params: (optional) An dictionary of query parameters to pass to your program.
-            :param body_params: (optional) An dictionary of JSON body parameters to pass to your program.
+            :param params: (optional) An dictionary of query parameters to pass to your program.
+            :param data: (optional) An dictionary of JSON body parameters to pass to your program.
             :return: Response object
             :rtype: requests.Response
             Usage::
@@ -47,7 +48,7 @@ class Client:
                 >>> endpoint = 'my_endpoint'
                 >>> query_params = { 'var1': 'one', 'var2': 'two', 'var3': 'three' }
                 >>> body_params = { 'bodyVar1': 'hello', 'bodyVar2': 'world' }
-                >>> response = wayscript.run( program_id, endpoint = endpoint, query_params = query_params, body_params = body_params )
+                >>> response = wayscript.run( program_id, endpoint = endpoint, params = query_params, data = body_params )
               <Response [200]>
             """
 
@@ -55,14 +56,18 @@ class Client:
         auth_header = self._get_auth_header()
         if auth_header: headers[ 'Authorization' ] = auth_header
 
-        url = f'https://{ program_id }.wayscript.com/' + ( endpoint or '' )
+        url = f'https://{ program_id }.wayscript.com/' + parse.quote( endpoint or '' )
 
-        return requests.post( url, params = query_params, data = body_params, headers = headers )
+        return requests.post( url, params = params, data = data, headers = headers )
 
     def _get_auth_header( self ):
         if self._api_key:
             return 'Bearer ' + self._api_key
         elif self._username and self._password:
-            return 'Basic ' + base64.b64encode( bytes( f'{ self._username }:{ self._password }', 'utf-8' ) ).decode( 'utf-8' )
+            return 'Basic ' + Client._encode_str( f'{ self._username }:{ self._password }' )
         else:
             return None
+
+    @staticmethod
+    def _encode_str( string: str ):
+        return base64.b64encode( bytes( string, 'utf-8' ) ).decode( 'utf-8' )

@@ -2,13 +2,11 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/wayscript.svg?color=blue)](https://pypi.python.org/pypi/wayscript/) [![CircleCI Status](https://circleci.com/gh/wayscript/wayscript-python/tree/master.svg?style=shield)](https://circleci.com/gh/wayscript/wayscript-python/tree/master)
 
-### A new way to build software.
+### A rapid scripting platform for developers.
 
-* WayScript gives you flexible building blocks to seamlessly integrate, automate and host tools in the cloud. Unlock new potential with drag and drop programming.
+WayScript allows you to run Python in the cloud, and seamlessly integrate with your favorite APIs.
 
-* Instantly connect to hundreds of datasets including GitHub, Twitter, databases, ecommerce data, or build your own integration. WayScript can read data from Excel, Google Sheets, and an evergrowing list of third-party APIs.
-
-* Seamlessly migrate to the cloud: Generate interfaces, instantly share, and run via event-based triggering. 
+![Trigger scripts on any event or schedule.](https://user-images.githubusercontent.com/31461850/68791449-30fde880-05fe-11ea-86d1-8dc739cda767.png)
 
 ## Installation
 
@@ -24,16 +22,24 @@ pip install wayscript
 
 3. If you have specified a [custom endpoint](https://docs.wayscript.com/library/triggers/http-trigger#endpoints), you will need the name of that endpoint as well.
 
-4. If your HTTP Trigger takes query parameters and/or JSON Body Parameters, you can pass those as a dictionary of query_params and/or body_params to your program.
+4. If your HTTP Trigger takes query parameters and/or JSON Body Parameters, you can pass those as a dictionary using the params and/or data arguments, respectively.
 
 5. Run your WayScript programs from your Python code:
 
 ```python
 from wayscript import WayScript
 
+# Create the WayScript client
+wayscript = WayScript()
+
+# If your program requires a password to run, supply those credentials when creating the client
 username = 'YOUR_USERNAME'
 password = 'YOUR_PASSWORD'
 kwargs = { 'username': username, 'password': password }
+wayscript = WayScript( **kwargs )
+
+# If your program requires a password to run, you can instead supply your API Key when creating the client
+kwargs = { 'api_key': 'MY_API_KEY' }
 wayscript = WayScript( **kwargs )
 
 # Run a program by id
@@ -41,15 +47,16 @@ program_id = 1234
 wayscript.run( program_id )
 
 # Pass query parameters for the HTTP Trigger to output (optional)
-params = { 'var1': 'one', 'var2': 'two', 'var3': 'three' }
-wayscript.run( program_id, query_params = params )
+query_params = { 'var1': 'one', 'var2': 'two', 'var3': 'three' }
+wayscript.run( program_id, params = query_params )
 
 # Pass JSON body parameters for the HTTP Trigger to output (optional)
-wayscript.run( program_id, body_params = params )
+body_params = { 'var4': 'four', 'var5': 'five', 'var6': 'six' }
+wayscript.run( program_id, data = body_params )
 
 # Run a custom endpoint (optional)
 endpoint = 'my_endpoint'
-wayscript.run( program_id, endpoint = endpoint, query_params = params )
+wayscript.run( program_id, endpoint = endpoint, params = query_params, data = body_params )
 
 # Get the response from the server
 response = wayscript.run( program_id )
@@ -59,7 +66,7 @@ response = wayscript.run( program_id )
 ```sh
 PROGRAM_ID=1234
 
-python -c "from wayscript import WayScript; WayScript().run_program($PROGRAM_ID)"
+python -c "from wayscript import WayScript; WayScript().run($PROGRAM_ID)"
 ```
 
-If you don't want to use Python on the command line, you can use `curl`. (See the WayScript [REST API documentation](https://wayscript.com/documentation/apis/rest_api).)
+If you don't want to use Python on the command line, you can use `cURL`. (See the [HTTP Trigger Sample Code](https://docs.wayscript.com/library/triggers/http-trigger#sample-code) for an example.)
