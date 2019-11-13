@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [0.1.0] - 2019-11-08
+## [0.1.0] - 2019-11-13
 ### Changed
 - **BREAKING**: Convert SDK to adhere to the [WayScript HTTP Trigger](https://docs.wayscript.com/library/triggers/http-trigger) specification.
 
