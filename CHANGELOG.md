@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.1.1] - 2020-03-11
+### Changed
+- Move endpoint from wayscript.com to wayscript.io
+
 ## [0.1.0] - 2019-11-13
 ### Changed
 - **BREAKING**: Convert SDK to adhere to the [WayScript HTTP Trigger](https://docs.wayscript.com/library/triggers/http-trigger) specification.
@@ -19,7 +23,8 @@ All notable changes to this project will be documented in this file.
 ## [0.0.1] - 2019-04-17
 ### Released SDK
 
-[Unreleased]: https://github.com/wayscript/wayscript-python/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/wayscript/wayscript-python/compare/0.1.1...HEAD
+[0.1.1]: https://github.com/wayscript/wayscript-python/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/wayscript/wayscript-python/compare/0.0.3...0.1.0
 [0.0.3]: https://github.com/wayscript/wayscript-python/compare/v0.0.2...0.0.3
 [0.0.2]: https://github.com/wayscript/wayscript-python/compare/0.0.1...v0.0.2

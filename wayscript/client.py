@@ -56,7 +56,7 @@ class Client:
         auth_header = self._get_auth_header()
         if auth_header: headers[ 'Authorization' ] = auth_header
 
-        url = f'https://{ program_id }.wayscript.com/' + parse.quote( endpoint or '' )
+        url = f'https://{ program_id }.wayscript.io/' + parse.quote( endpoint or '' )
 
         return requests.post( url, params = params, data = data, headers = headers )
 

@@ -15,7 +15,7 @@ class TestWayScript( TestCase ):
     PROGRAM_ID    = 1234
     QUERY_PARAMS  = { 'var1': 'one', 'var2': 'two', 'var3': 'three' }
     BODY_PARAMS   = { 'var4': 'four', 'var5': 'five', 'var6': 'six' }
-    API_URL       = f'https://{ PROGRAM_ID }.wayscript.com/'
+    API_URL       = f'https://{ PROGRAM_ID }.wayscript.io/'
     ENDPOINT      = 'my_endpoint'
 
     def test_api_key_arg( self ):
