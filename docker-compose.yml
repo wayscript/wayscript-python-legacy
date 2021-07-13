@@ -1,0 +1,15 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+    command: bash publish.sh
+    volumes:
+      - .:/usr/local/src/project
+    env_file:
+      - ./.env.pypi
+      # if you want to test publishing, put your test pypi creds in .env.pypi-test
+      # - ./.env.pypi-test
+    stdin_open: true
+    tty: true
+
