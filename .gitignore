@@ -49,6 +49,7 @@ target/
 
 # dotenv
 .env
+.env.*
 
 # virtualenv
 venv/
