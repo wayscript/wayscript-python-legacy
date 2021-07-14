@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/python:3.6.8
+      - image: circleci/python:3.8.11
     working_directory: ~/wayscript-python
     steps:
       - checkout
@@ -10,7 +10,7 @@ jobs:
           name: chown
           command: |
             sudo chown -R circleci:circleci /usr/local/bin
-            sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+            sudo chown -R circleci:circleci /usr/local/lib/python3.8/site-packages
       - run:
           name : Install
           command: |

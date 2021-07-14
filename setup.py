@@ -4,20 +4,28 @@
 # Licensed under the MIT License.
 
 import setuptools
+import os
 
 with open("README.md", "r", encoding="UTF-8") as fh:
     long_description = fh.read()
 
+def get_version():
+    """Helper method to retrieve current version"""
+    version = os.environ["VERSION"]
+    # ToDo: add assertions to ensure that this is a valid, publishable version
+    return version
+
+
 setuptools.setup(
-    name="wayscript",
-    version="0.1.1",
+    name="wayscript-legacy",
+    version=get_version(),
     author="Team WayScript",
     author_email="founders@wayscript.com",
     description="WayScript gives you flexible building blocks to seamlessly integrate, automate and host tools in the cloud.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=['requests>=2.22.0'],
-    url="https://github.com/wayscript/wayscript-python",
+    url="https://github.com/wayscript/wayscript-python-legacy",
     packages=['wayscript'],
     license='MIT',
     classifiers=[
