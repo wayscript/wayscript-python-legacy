@@ -17,6 +17,7 @@ jobs:
             sudo pip install pipenv
             pipenv install
             pipenv run pip install requests
+            pipenv run pip install -e .
       - run:
           name: Run tests
           command: |
