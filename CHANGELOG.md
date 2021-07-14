@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.1.3] - 2021-07-14
+### Changed
+- No-op. Previous publish broke package installation.
+
 ## [0.1.2] - 2021-07-13
 ### Changed
 - No-op. Publishing old `wayscript` package under new name.
@@ -27,7 +31,8 @@ All notable changes to this project will be documented in this file.
 ## [0.0.1] - 2019-04-17
 ### Released SDK
 
-[Unreleased]: https://github.com/wayscript/wayscript-python-legacy/compare/0.1.2...HEAD
+[Unreleased]: https://github.com/wayscript/wayscript-python-legacy/compare/0.1.3...HEAD
+[0.1.3]: https://github.com/wayscript/wayscript-python-legacy/compare/0.1.2...0.1.3
 [0.1.2]: https://github.com/wayscript/wayscript-python-legacy/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/wayscript/wayscript-python-legacy/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/wayscript/wayscript-python-legacy/compare/0.0.3...0.1.0

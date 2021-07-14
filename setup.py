@@ -9,16 +9,10 @@ import os
 with open("README.md", "r", encoding="UTF-8") as fh:
     long_description = fh.read()
 
-def get_version():
-    """Helper method to retrieve current version"""
-    version = os.environ["VERSION"]
-    # ToDo: add assertions to ensure that this is a valid, publishable version
-    return version
-
 
 setuptools.setup(
     name="wayscript-legacy",
-    version=get_version(),
+    version='0.0.0',
     author="Team WayScript",
     author_email="founders@wayscript.com",
     description="WayScript gives you flexible building blocks to seamlessly integrate, automate and host tools in the cloud.",
