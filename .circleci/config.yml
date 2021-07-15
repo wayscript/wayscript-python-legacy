@@ -10,7 +10,7 @@ jobs:
       - checkout
       - run:
           name: lint
-          command: ls && pwd # docker-compose -f docker-compose.ci.yml run --rm app lint
+          command: docker-compose -f docker-compose.ci.yml run --rm app lint
       - run:
           name: test
           command: docker-compose -f docker-compose.ci.yml run --rm app test
