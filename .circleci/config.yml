@@ -5,6 +5,8 @@ jobs:
       - image: circleci/python:3.8.11
     working_directory: ~/wayscript-python
     steps:
+      - setup_remote_docker:
+          version: 20.10.6
       - checkout
       - run:
           name: lint
