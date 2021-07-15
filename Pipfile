@@ -8,6 +8,7 @@ name = "pypi"
 [dev-packages]
 twine = "*"
 tag-version = "*"
+pyflakes = "*"
 
 [requires]
 python_version = "3.8"
