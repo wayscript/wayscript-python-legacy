@@ -7,18 +7,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: chown
-          command: |
-            sudo chown -R circleci:circleci /usr/local/bin
-            sudo chown -R circleci:circleci /usr/local/lib/python3.8/site-packages
+          name: lint
+          command: docker-compose -f docker-compose.ci.yml run --rm app lint
       - run:
-          name : Install
-          command: |
-            sudo pip install pipenv
-            pipenv install
-            pipenv run pip install requests
-            pipenv run pip install -e .
-      - run:
-          name: Run tests
-          command: |
-            pipenv run python -m unittest discover
+          name: test
+          command: docker-compose -f docker-compose.ci.yml run --rm app test

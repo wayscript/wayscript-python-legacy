@@ -3,16 +3,10 @@ services:
   app:
     build:
       context: .
-    working_dir: /opt/project
-    volumes:
-      - .:/opt/project
     environment:
       - TWINE_USERNAME=__token__
       - TWINE_NON_INTERACTIVE=1
       - TWINE_PASSWORD
-    # env_file:
-      # if you want to test publishing, put your test pypi creds in .env.pypi-test
-      # - ./.env.pypi-test
     stdin_open: true
     tty: true
 
