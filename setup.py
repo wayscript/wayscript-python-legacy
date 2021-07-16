@@ -4,7 +4,6 @@
 # Licensed under the MIT License.
 
 import setuptools
-import os
 
 with open("README.md", "r", encoding="UTF-8") as fh:
     long_description = fh.read()
